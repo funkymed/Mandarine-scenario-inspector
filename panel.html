@@ -1,0 +1,42 @@
+<html>
+<head>
+    <script src="vendor/assets/javascripts/jquery.js"></script>
+    <script src="vendor/assets/javascripts/jquery.layout.js"></script>
+    <script src="assets/js/MNDRN.js"></script>
+    <script src="assets/js/timeline.js"></script>
+    <style>
+        table#editor-table {
+            width:100%;
+            border-collapse: collapse;
+            font-size: 10px;
+
+        }
+        #editor-table td,#editor-table  th {padding: .5em 1em;}
+        #editor-table thead th {
+        }
+        #editor-table tr:nth-child(even) {
+            background-color: #eee;
+        }
+        #editor-table tr:nth-child(odd) {
+            background-color: #ddd;
+        }
+        #editor-table thead th {
+            background:rgb(85, 85, 85);
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div id="center" class="ui-layout-center">
+        <img src="assets/images/16x16.png" align="absmiddle"/>
+        <strong style="color:#aaa;">Mandarine scenario inspector</strong><br />
+        TIME : <span id="time">0</span><br />
+        FPS : <span id="fps">0</span><br />
+        DURATION : <span id="duration">0</span>
+        <br />
+        <br />
+    </div>
+    <div id="east" class="ui-layout-east">
+    </div>
+</body>
+</html>
