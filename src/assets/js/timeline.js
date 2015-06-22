@@ -1,16 +1,20 @@
 var w = window,
   d = document,
   g = d.getElementsByTagName('body')[0];
+var abcd = 1;
 var durationSequence=0;
-var sequence = [
-  {start: 0,end:10,name:"ok1",getTypeName:function(){return "scene";}},
-  {start:10,end:20,name:"ok2",getTypeName:function(){return "transition";}},
-  {start:20,end:30,name:"ok3",getTypeName:function(){return "scene";}},
-  {start:30,end:40,name:"ok4",getTypeName:function(){return "transition";}},
-  {start:12,end:14,name:"ok6",getTypeName:function(){return "effect";}},
-  {start:22,end:25,name:"ok7",getTypeName:function(){return "effect";}},
-  {start:35,end:45,name:"ok8",getTypeName:function(){return "scene";}}
-];
+if(!sequence)
+{
+  var sequence = [
+    {start: 0,end:10,name:"ok1",getTypeName:function(){return "scene";}},
+    {start:10,end:20,name:"ok2",getTypeName:function(){return "transition";}},
+    {start:20,end:30,name:"ok3",getTypeName:function(){return "scene";}},
+    {start:30,end:40,name:"ok4",getTypeName:function(){return "transition";}},
+    {start:12,end:14,name:"ok6",getTypeName:function(){return "effect";}},
+    {start:22,end:25,name:"ok7",getTypeName:function(){return "effect";}},
+    {start:35,end:45,name:"ok8",getTypeName:function(){return "scene";}}
+  ];
+}
 
 var debugTimeline = false;
 var timelineItems={};
@@ -256,22 +260,40 @@ var sss =new Date().getTime();
 
 $(function()
 {
-  //chrome.devtools.panels.create("Mandarine", "assets/images/16x16.png", "panel.html", function(panel){
-  //
-  //});
-  //var w = chrome.extension.getBackgroundPage();
-  //chrome.devtools.inspectedWindow.eval(
-  //  "jQuery.fn.jquery",
-  //  function(result, isException) {
-  //    if (isException)
-  //      console.log("the page is not using jQuery");
-  //    else
-  //      console.log("The page is using jQuery v" + result);
-  //  }
-  //);
+  //sss =new Date().getTime();
+  //timeline();
+  //$('body').layout({ applyDefaultStyles: true });
+  //updater();
+
+  $('#reload').click(function( e ) {
+    chrome.devtools.inspectedWindow.reload({
+      ignoreCache: true
+      //injectedScript: '(' + f.toString() + ')()'
+    });
+  });
+
+});
+
+function init()
+{
   sss =new Date().getTime();
   timeline();
   $('body').layout({ applyDefaultStyles: true });
   updater();
+  //window.postMessage( { source: 'WebGLShaderEditor', method: 'setVSSource', code: program.vertexShaderSource }, '*');
 
+}
+
+var backgroundPageConnection = chrome.runtime.connect({
+  name: "mandarine-page"
 });
+
+backgroundPageConnection.onMessage.addListener(function (message) {
+  // Handle responses from the background page, if any
+});
+
+//Relay the tab ID to the background page
+//chrome.runtime.sendMessage({
+//  tabId: chrome.devtools.inspectedWindow.tabId,
+//  scriptToInject: "assets/js/content.js"
+//});

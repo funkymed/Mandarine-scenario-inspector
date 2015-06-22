@@ -27,16 +27,27 @@
     </style>
 </head>
 <body>
-    <div id="center" class="ui-layout-center">
-        <img src="assets/images/16x16.png" align="absmiddle"/>
-        <strong style="color:#aaa;">Mandarine scenario inspector</strong><br />
-        TIME : <span id="time">0</span><br />
-        FPS : <span id="fps">0</span><br />
-        DURATION : <span id="duration">0</span>
-        <br />
-        <br />
+<div id="info">
+    <div>
+        <p>Welcome!</p>
+        <h1>Mandarine scenario inspector extension</h1>
+        <p>To start the extension you need needs to reload the page.</p>
+        <button id="reload" class='reload-button'>Reload</button>
     </div>
-    <div id="east" class="ui-layout-east">
-    </div>
+</div>
+<div id="waiting">
+    <p>Waiting for programs to be added...</p>
+</div>
+<div id="center" class="ui-layout-center">
+    <img src="assets/images/16x16.png" align="absmiddle"/>
+    <strong style="color:#aaa;">Mandarine scenario inspector</strong><br />
+    TIME : <span id="time">0</span><br />
+    FPS : <span id="fps">0</span><br />
+    DURATION : <span id="duration">0</span>
+    <br />
+    <br />
+</div>
+<div id="east" class="ui-layout-east"></div>
+<script src="assets/js/panel.js"></script>
 </body>
 </html>
