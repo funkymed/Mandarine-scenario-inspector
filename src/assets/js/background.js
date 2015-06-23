@@ -23,17 +23,19 @@ chrome.runtime.onConnect.addListener(function(port) {
 
   // Listen to messages sent from the DevTools page
   port.onMessage.addListener(function(request) {
-    // console.log('incoming message from dev tools page');
-
+    console.log("background",request.name);
     // Register initial connection
-    if (request.name == 'init') {
-      connections[request.tabId] = port;
-
-      port.onDisconnect.addListener(function() {
-        delete connections[request.tabId];
-      });
-
-      return;
+    switch(request.name)
+    {
+      case "init":
+        connections[request.tabId] = port;
+        port.onDisconnect.addListener(function() {
+          delete connections[request.tabId];
+        });
+        return;
+        break;
+      default:
+        break;
     }
   });
 

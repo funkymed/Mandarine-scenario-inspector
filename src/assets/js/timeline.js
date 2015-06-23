@@ -6,13 +6,13 @@ var durationSequence=0;
 if(!sequence)
 {
   var sequence = [
-    {start: 0,end:10,name:"ok1",getTypeName:function(){return "scene";}},
-    {start:10,end:20,name:"ok2",getTypeName:function(){return "transition";}},
-    {start:20,end:30,name:"ok3",getTypeName:function(){return "scene";}},
-    {start:30,end:40,name:"ok4",getTypeName:function(){return "transition";}},
-    {start:12,end:14,name:"ok6",getTypeName:function(){return "effect";}},
-    {start:22,end:25,name:"ok7",getTypeName:function(){return "effect";}},
-    {start:35,end:45,name:"ok8",getTypeName:function(){return "scene";}}
+    {start: 0,end:10,name:"ok1",type:"scene"},
+    {start:10,end:20,name:"ok2",type:"transition"},
+    {start:20,end:30,name:"ok3",type:"scene"},
+    {start:30,end:40,name:"ok4",type:"transition"},
+    {start:12,end:14,name:"ok6",type:"effect"},
+    {start:22,end:25,name:"ok7",type:"effect"},
+    {start:35,end:45,name:"ok8",type:"scene"}
   ];
 }
 
@@ -31,22 +31,16 @@ function getTimer()
   return MNDRN.timer.currentTime;
 }
 
-function getSequence()
-{
-  return sequence ? sequence : sequence;
-}
-
 function timeline()
 {
   var end = 0;
-  var t = getSequence();
-  t.forEach(function(b)
+  sequence.forEach(function(b)
   {
-    if(!timelineItems[b.getTypeName()]) timelineItems[b.getTypeName()]=[];
+    if(!timelineItems[b.type]) timelineItems[b.type]=[];
 
-    timelineItems[b.getTypeName()].push({
+    timelineItems[b.type].push({
       name: b.name,
-      type: b.getTypeName(),
+      type: b.type,
       start: b.start,
       end: b.end
     });
@@ -59,6 +53,7 @@ function timeline()
   MNDRN.timeline = timelineItems;
 
   var containerTimeline = d.createElement('div');
+  containerTimeline.id= "container-timeline";
   containerTimeline.style.width="100%";
   containerTimeline.style.position="relative";
   containerTimeline.style.height="auto";
@@ -246,11 +241,11 @@ $.makeTable = function (mydata) {
 function updater()
 {
   //requestAnimationFrame(updater);
+  chrome.devtools.inspectedWindow.eval( '(' + u.toString() + ')()' ) ;
   if(MNDRN.timer.currentTime<=durationSequence)
   {
-    MNDRN.timer.currentTime=(new Date().getTime()-sss)/1000;
+    //MNDRN.timer.currentTime=(new Date().getTime()-sss)/1000;
     $('#time').html(MNDRN.timer.currentTime);
-    $('#fps').html(MNDRN.getFps());
     updatetimeline();
   }
   setTimeout(updater,600/10);
@@ -260,40 +255,23 @@ var sss =new Date().getTime();
 
 $(function()
 {
-  //sss =new Date().getTime();
-  //timeline();
-  //$('body').layout({ applyDefaultStyles: true });
-  //updater();
-
-  $('#reload').click(function( e ) {
+  $('#reload').click(function() {
     chrome.devtools.inspectedWindow.reload({
       ignoreCache: true
-      //injectedScript: '(' + f.toString() + ')()'
     });
-  });
+  }); 
 
 });
 
+var started = false;
 function init()
 {
+  started=true;
   sss =new Date().getTime();
-  timeline();
-  $('body').layout({ applyDefaultStyles: true });
-  updater();
-  //window.postMessage( { source: 'WebGLShaderEditor', method: 'setVSSource', code: program.vertexShaderSource }, '*');
-
+  if($('#container-timeline').length<=0)
+  {
+    timeline();
+    $('body').layout({ applyDefaultStyles: true });
+    updater();
+  }
 }
-
-var backgroundPageConnection = chrome.runtime.connect({
-  name: "mandarine-page"
-});
-
-backgroundPageConnection.onMessage.addListener(function (message) {
-  // Handle responses from the background page, if any
-});
-
-//Relay the tab ID to the background page
-//chrome.runtime.sendMessage({
-//  tabId: chrome.devtools.inspectedWindow.tabId,
-//  scriptToInject: "assets/js/content.js"
-//});

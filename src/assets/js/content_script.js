@@ -1,7 +1,5 @@
 window.addEventListener('message', function(event) {
 
-  console.log( 'message ', event );
-
   if (event.source !== window) {
     return;
   }
@@ -12,6 +10,6 @@ window.addEventListener('message', function(event) {
   if (typeof message !== 'object' || message === null ) {
     return;
   }
-  //console.log("message",message);
+
   chrome.runtime.sendMessage(message);
 });

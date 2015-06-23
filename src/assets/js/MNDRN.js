@@ -7,14 +7,6 @@ var MNDRN = {
   },
   lastLoop: new Date,
   thisLoop:null,
-  frameTime: 0,
-  getFps:function()
-  {
-    var thisFrameTime = (this.thisLoop=new Date) - this.lastLoop;
-    this.frameTime+= (thisFrameTime - this.frameTime) / 20;
-    this.lastLoop = this.thisLoop;
-    return (1000/this.frameTime).toFixed(0);
-  },
   screenWidth:function()
   {
     return w.innerWidth || e.clientWidth || g.clientWidth;
